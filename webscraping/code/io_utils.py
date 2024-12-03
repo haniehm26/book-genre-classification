@@ -8,9 +8,9 @@ def read_book_ids(csv_file):
         return [row[1].split(".")[0] for row in reader]
     
 # Function to save scraped book description to CSV
-def save_to_csv(file_path, book_data):
-    with open(file_path, mode='w', newline='', encoding='utf-8') as file:
+def save_to_csv(file_path, book_id, book_data, header):
+    with open(file_path, mode='a', newline='', encoding='utf-8') as file:
         writer = csv.DictWriter(file, fieldnames=["id", "description", "status_code"])
-        writer.writeheader()
-        for book_id, details in book_data.items():
-            writer.writerow({"id": book_id, **details})
+        if header:
+            writer.writeheader()
+        writer.writerow({"id": book_id, **book_data})
