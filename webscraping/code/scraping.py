@@ -5,8 +5,14 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 
-from constants import USER_AGENT
+from fake_useragent import UserAgent
 
+import random
+
+from constants import PROXY_LISTS
+
+def generate_user_agent():
+    return UserAgent().random
 
 def driver_setup():
     options = webdriver.ChromeOptions()
@@ -14,7 +20,8 @@ def driver_setup():
     options.add_argument("--disable-gpu")
     options.add_argument('--start-maximized')
     options.add_argument('--disable-blink-features=AutomationControlled')
-    options.add_argument(f"user-agent={USER_AGENT}")
+    options.add_argument(f"user-agent={generate_user_agent()}")
+    # options.add_argument(f'--proxy-server={random.choice(PROXY_LISTS)}')
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     return driver
 
@@ -27,7 +34,7 @@ def scrape_book_details(book_id: str):
         driver.get("https://www.amazon.com")
         
         # Wait for the search box
-        search_box = WebDriverWait(driver, 1).until(
+        search_box = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.ID, "twotabsearchtextbox"))
         )
         search_box.send_keys(book_id)
