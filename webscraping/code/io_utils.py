@@ -2,7 +2,7 @@ import csv
 
 # Function to read book IDs from a CSV file
 def read_book_ids(csv_file):
-    with open(csv_file, mode='r', encoding='utf-8') as file:
+    with open(csv_file, mode='r', encoding='latin-1') as file:
         reader = csv.reader(file)
         # Skip the header and extract the second column
         return [row[1].split(".")[0] for row in reader]
