@@ -3,7 +3,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from scraping import driver_setup, scrape_book_details
 from io_utils import read_book_ids, save_to_csv
 
-from constants import BOOK_IDS_FILE, BOOK_DESCRIPTION_FILE
+from constants import BOOK_IDS_FILE, BOOK_DESCRIPTION_FILE, START, END, MAX_WORKERS
 
 import time
 
@@ -11,14 +11,15 @@ def main():
     start_time = time.time()
 
     # Read book IDs
-    book_ids = read_book_ids(BOOK_IDS_FILE)[100: 200]
+    book_ids = read_book_ids(BOOK_IDS_FILE)[START: END]
 
     # Initialize book data dictionary
     default_value = {"description": "", "status_code": 404}
     book_data = {book_id: default_value.copy() for book_id in book_ids}
 
     # Use ThreadPoolExecutor for parallel execution
-    with ThreadPoolExecutor(max_workers=10) as executor:
+    header = True
+    with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
         future_to_book_id = {executor.submit(scrape_book_details, book_id): book_id for book_id in book_ids}
         row = 0
         for future in as_completed(future_to_book_id):
@@ -30,12 +31,12 @@ def main():
             except Exception as e:
                 print(f"Error scraping book {book_id}: {e}")
                 book_data[book_id] = default_value
+            # Save scraped data to a CSV file
+            save_to_csv(BOOK_DESCRIPTION_FILE, book_id, book_data[book_id], header)
+            header = False
             row += 1
   
     print(book_data)
-
-    # Save scraped data to a CSV file
-    save_to_csv(BOOK_DESCRIPTION_FILE, book_data)
     print("Scraping completed. Data saved to file.")
 
     end_time = time.time()
