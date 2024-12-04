@@ -16,8 +16,8 @@ def generate_user_agent():
 
 def driver_setup():
     options = webdriver.ChromeOptions()
-    options.add_argument("--headless")
-    options.add_argument("--disable-gpu")
+    # options.add_argument("--headless")
+    # options.add_argument("--disable-gpu")
     options.add_argument('--start-maximized')
     options.add_argument('--disable-blink-features=AutomationControlled')
     options.add_argument(f"user-agent={generate_user_agent()}")
@@ -25,9 +25,9 @@ def driver_setup():
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     return driver
 
-def scrape_book_details(book_id: str):
+def scrape_book_details(driver, book_id: str):
     # Set up WebDriver
-    driver = driver_setup()
+    # driver = driver_setup()
 
     try:
         # Load Amazon homepage
@@ -69,6 +69,6 @@ def scrape_book_details(book_id: str):
         print("Couldn't load home page.")
         return {"description": "", "status_code": 404}
     
-    finally:
-        # Quit the driver after processing
-        driver.quit()
+    # finally:
+    #     # Quit the driver after processing
+    #     driver.quit()

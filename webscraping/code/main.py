@@ -10,6 +10,8 @@ import time
 def main():
     start_time = time.time()
 
+    driver = driver_setup()
+
     # Read book IDs
     book_ids = read_book_ids(BOOK_IDS_FILE)[START: END]
 
@@ -20,7 +22,7 @@ def main():
     # Use ThreadPoolExecutor for parallel execution
     header = True
     with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
-        future_to_book_id = {executor.submit(scrape_book_details, book_id): book_id for book_id in book_ids}
+        future_to_book_id = {executor.submit(scrape_book_details, driver, book_id): book_id for book_id in book_ids}
         row = 0
         for future in as_completed(future_to_book_id):
             book_id = future_to_book_id[future]
@@ -36,6 +38,7 @@ def main():
             header = False
             row += 1
   
+    driver.quit()
     print(book_data)
     print("Scraping completed. Data saved to file.")
 
