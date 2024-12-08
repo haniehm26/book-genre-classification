@@ -1,4 +1,4 @@
-# Book Dataset - Task 1
+# Book Dataset - Cover + Description
 
 There are 46,226 books in 29 classes. This dataset contains book cover images, title, author, description and subcategories for each respective book.
 
