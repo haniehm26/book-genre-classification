@@ -1,0 +1,74 @@
+Total entries: 5700
+
+Entries with non-empty description: 5455
+
+Entries per category:
+
+category
+Medical Books                   190
+Test Preparation                190
+Science Fiction & Fantasy       190
+Romance                         190
+Teen & Young Adult              190
+Comics & Graphic Novels         190
+History                         190
+Calendars                       190
+Reference                       190
+Humor & Entertainment           190
+Travel                          190
+Crafts, Hobbies & Home          190
+Cookbooks, Food & Wine          190
+Computers & Technology          190
+Sports & Outdoors               190
+Parenting & Relationships       190
+Business & Money                190
+Health, Fitness & Dieting       190
+Politics & Social Sciences      190
+Law                             190
+Self-Help                       190
+Children's Books                190
+Christian Books & Bibles        190
+Science & Math                  190
+Engineering & Transportation    190
+Literature & Fiction            190
+Arts & Photography              190
+Religion & Spirituality         190
+Biographies & Memoirs           190
+Mystery, Thriller & Suspense    190
+
+Entries with non-empty description per category:
+
+category
+Parenting & Relationships       189
+Politics & Social Sciences      189
+History                         188
+Religion & Spirituality         187
+Christian Books & Bibles        187
+Self-Help                       187
+Mystery, Thriller & Suspense    186
+Computers & Technology          186
+Literature & Fiction            186
+Engineering & Transportation    186
+Children's Books                186
+Test Preparation                185
+Business & Money                185
+Reference                       185
+Arts & Photography              185
+Science & Math                  184
+Biographies & Memoirs           184
+Comics & Graphic Novels         184
+Humor & Entertainment           184
+Romance                         183
+Teen & Young Adult              183
+Crafts, Hobbies & Home          183
+Law                             183
+Medical Books                   181
+Cookbooks, Food & Wine          179
+Sports & Outdoors               178
+Science Fiction & Fantasy       177
+Health, Fitness & Dieting       176
+Travel                          164
+Calendars                       135
+
+Category with least entries with non-empty description: Calendars
+Number of entries: 135
