@@ -1,0 +1,72 @@
+Total entries: 4756
+
+Entries with non-empty description: 4756
+
+Entries per category:
+
+category
+Arts & Photography              164
+Medical Books                   164
+Test Preparation                164
+Teen & Young Adult              164
+Sports & Outdoors               164
+Self-Help                       164
+Science Fiction & Fantasy       164
+Science & Math                  164
+Romance                         164
+Religion & Spirituality         164
+Reference                       164
+Politics & Social Sciences      164
+Parenting & Relationships       164
+Mystery, Thriller & Suspense    164
+Literature & Fiction            164
+Biographies & Memoirs           164
+Law                             164
+Humor & Entertainment           164
+History                         164
+Health, Fitness & Dieting       164
+Engineering & Transportation    164
+Christian Books & Bibles        164
+Crafts, Hobbies & Home          164
+Cookbooks, Food & Wine          164
+Computers & Technology          164
+Comics & Graphic Novels         164
+Children's Books                164
+Business & Money                164
+Travel                          164
+
+Entries with non-empty description per category:
+
+category
+Arts & Photography              164
+Medical Books                   164
+Test Preparation                164
+Teen & Young Adult              164
+Sports & Outdoors               164
+Self-Help                       164
+Science Fiction & Fantasy       164
+Science & Math                  164
+Romance                         164
+Religion & Spirituality         164
+Reference                       164
+Politics & Social Sciences      164
+Parenting & Relationships       164
+Mystery, Thriller & Suspense    164
+Literature & Fiction            164
+Biographies & Memoirs           164
+Law                             164
+Humor & Entertainment           164
+History                         164
+Health, Fitness & Dieting       164
+Engineering & Transportation    164
+Christian Books & Bibles        164
+Crafts, Hobbies & Home          164
+Cookbooks, Food & Wine          164
+Computers & Technology          164
+Comics & Graphic Novels         164
+Children's Books                164
+Business & Money                164
+Travel                          164
+
+Category with least entries with non-empty description: Arts & Photography
+Number of entries: 164

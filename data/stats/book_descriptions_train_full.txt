@@ -1,0 +1,74 @@
+Total entries: 51300
+
+Entries with non-empty description: 47045
+
+Entries per category:
+
+category
+Biographies & Memoirs           1710
+Children's Books                1710
+Science Fiction & Fantasy       1710
+Calendars                       1710
+Self-Help                       1710
+Teen & Young Adult              1710
+Reference                       1710
+Comics & Graphic Novels         1710
+History                         1710
+Romance                         1710
+Parenting & Relationships       1710
+Arts & Photography              1710
+Test Preparation                1710
+Computers & Technology          1710
+Law                             1710
+Humor & Entertainment           1710
+Literature & Fiction            1710
+Religion & Spirituality         1710
+Crafts, Hobbies & Home          1710
+Politics & Social Sciences      1710
+Cookbooks, Food & Wine          1710
+Business & Money                1710
+Travel                          1710
+Science & Math                  1710
+Medical Books                   1710
+Health, Fitness & Dieting       1710
+Sports & Outdoors               1710
+Christian Books & Bibles        1710
+Engineering & Transportation    1710
+Mystery, Thriller & Suspense    1710
+
+Entries with non-empty description per category:
+
+category
+Politics & Social Sciences      1670
+Biographies & Memoirs           1668
+Mystery, Thriller & Suspense    1657
+Christian Books & Bibles        1647
+Parenting & Relationships       1639
+Business & Money                1639
+Literature & Fiction            1636
+Reference                       1633
+Science & Math                  1632
+Children's Books                1632
+Computers & Technology          1628
+Self-Help                       1623
+History                         1610
+Religion & Spirituality         1607
+Arts & Photography              1603
+Engineering & Transportation    1602
+Teen & Young Adult              1601
+Humor & Entertainment           1601
+Crafts, Hobbies & Home          1596
+Test Preparation                1579
+Law                             1579
+Medical Books                   1567
+Cookbooks, Food & Wine          1565
+Sports & Outdoors               1547
+Science Fiction & Fantasy       1540
+Comics & Graphic Novels         1531
+Health, Fitness & Dieting       1530
+Travel                          1431
+Romance                         1430
+Calendars                        822
+
+Category with least entries with non-empty description: Calendars
+Number of entries: 822

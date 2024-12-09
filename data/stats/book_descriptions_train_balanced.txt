@@ -1,0 +1,72 @@
+Total entries: 41470
+
+Entries with non-empty description: 41470
+
+Entries per category:
+
+category
+Arts & Photography              1430
+Medical Books                   1430
+Test Preparation                1430
+Teen & Young Adult              1430
+Sports & Outdoors               1430
+Self-Help                       1430
+Science Fiction & Fantasy       1430
+Science & Math                  1430
+Romance                         1430
+Religion & Spirituality         1430
+Reference                       1430
+Politics & Social Sciences      1430
+Parenting & Relationships       1430
+Mystery, Thriller & Suspense    1430
+Literature & Fiction            1430
+Biographies & Memoirs           1430
+Law                             1430
+Humor & Entertainment           1430
+History                         1430
+Health, Fitness & Dieting       1430
+Engineering & Transportation    1430
+Christian Books & Bibles        1430
+Crafts, Hobbies & Home          1430
+Cookbooks, Food & Wine          1430
+Computers & Technology          1430
+Comics & Graphic Novels         1430
+Children's Books                1430
+Business & Money                1430
+Travel                          1430
+
+Entries with non-empty description per category:
+
+category
+Arts & Photography              1430
+Medical Books                   1430
+Test Preparation                1430
+Teen & Young Adult              1430
+Sports & Outdoors               1430
+Self-Help                       1430
+Science Fiction & Fantasy       1430
+Science & Math                  1430
+Romance                         1430
+Religion & Spirituality         1430
+Reference                       1430
+Politics & Social Sciences      1430
+Parenting & Relationships       1430
+Mystery, Thriller & Suspense    1430
+Literature & Fiction            1430
+Biographies & Memoirs           1430
+Law                             1430
+Humor & Entertainment           1430
+History                         1430
+Health, Fitness & Dieting       1430
+Engineering & Transportation    1430
+Christian Books & Bibles        1430
+Crafts, Hobbies & Home          1430
+Cookbooks, Food & Wine          1430
+Computers & Technology          1430
+Comics & Graphic Novels         1430
+Children's Books                1430
+Business & Money                1430
+Travel                          1430
+
+Category with least entries with non-empty description: Arts & Photography
+Number of entries: 1430
