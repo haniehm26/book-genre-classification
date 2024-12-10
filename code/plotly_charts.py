@@ -125,6 +125,7 @@ fig = px.bar(top_authors, x='author', y='word_count',
              color='word_count', 
              color_continuous_scale='Viridis')
 fig.show()
+# pio.write_image(fig, "Top 25 Authors by Total Words in Descriptions.png")
 
 
 # Top 25 Categories by Total Words in Descriptions
