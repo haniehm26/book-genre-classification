@@ -1,9 +1,15 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.manifold import TSNE
 from wordcloud import WordCloud, STOPWORDS
+from matplotlib.lines import Line2D
 import pandas as pd
 import plotly.express as px
 import plotly.io as pio
+import tensorflow_hub as hub
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 
 df = pd.read_csv("C:/Users/hanie/OneDrive/Documents/Hanieh/Master/FOUNDATIONS OF DATA SCIENCE/Project/fds_project/data/full_data/book_descriptions_train_balanced.csv")
 
@@ -19,7 +25,7 @@ fig = px.bar(
     text='Number of Books'
 )
 fig.show()
-pio.write_image(fig, "Distribution of Authors by Number of Books.png") 
+# pio.write_image(fig, "Distribution of Authors by Number of Books.png") 
 
 
 # Average Description Length by Author
@@ -43,7 +49,7 @@ fig = px.bar(
     text='description_length'
 )
 fig.show()
-pio.write_image(fig, "Average Description Length by Author.png")
+# pio.write_image(fig, "Average Description Length by Author.png")
 
 
 # Average Description Length by Category
@@ -58,7 +64,7 @@ fig = px.bar(
     text='description_length'
 )
 fig.show()
-pio.write_image(fig, "Average Description Length by Category.png")
+# pio.write_image(fig, "Average Description Length by Category.png")
 
 
 # Show similarities between 150 rondom sampled books based on shared words in titles
@@ -83,7 +89,7 @@ fig.update_layout(
     template='plotly_white'
 )
 fig.show()
-pio.write_image(fig, "Book Title Similarity Heatmap.png")
+# pio.write_image(fig, "Book Title Similarity Heatmap.png")
 
 
 # Show similarities between 150 rondom sampled books based on shared words in descriptions
@@ -108,7 +114,7 @@ fig.update_layout(
     template='plotly_white'
 )
 fig.show()
-pio.write_image(fig, "Book Description Similarity Heatmap.png")
+# pio.write_image(fig, "Book Description Similarity Heatmap.png")
 
 
 # Top 25 Authors by Total Words in Descriptions
@@ -137,7 +143,7 @@ fig = px.bar(top_categories, x='category', y='word_count',
              color='word_count', 
              color_continuous_scale='Viridis')
 fig.show()
-pio.write_image(fig, f"Top {top_n} Categories by Total Words in Descriptions.png")
+# pio.write_image(fig, f"Top {top_n} Categories by Total Words in Descriptions.png")
 
 
 # Word Frequency in Book Titles
@@ -150,7 +156,7 @@ word_freq_df = pd.DataFrame(list(word_freq.items()), columns=['Word', 'Frequency
 fig = px.bar(word_freq_df, x='Word', y='Frequency', title="Word Frequency in Book Titles")
 fig.update_layout(xaxis_tickangle=-45)
 fig.show()
-pio.write_image(fig, "Word Frequency in Book Titles.png")
+# pio.write_image(fig, "Word Frequency in Book Titles.png")
 
 
 # Word Frequency in Book Descriptions
@@ -163,4 +169,32 @@ word_freq_df = pd.DataFrame(list(word_freq.items()), columns=['Word', 'Frequency
 fig = px.bar(word_freq_df, x='Word', y='Frequency', title="Word Frequency in Book Descriptions")
 fig.update_layout(xaxis_tickangle=-45)
 fig.show()
-pio.write_image(fig, "Word Frequency in Book Descriptions.png")
+# pio.write_image(fig, "Word Frequency in Book Descriptions.png")
+
+
+# Load the Universal Sentence Encoder model
+embed = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4")
+df['metadata'] = df['title'] + " " + df['description']
+df = df.sample(n=10000, random_state=42)
+df = df.dropna(subset=['metadata'])
+batch_size = 100 
+embeddings = []
+for i in range(0, len(df), batch_size):
+    batch = df['metadata'][i:i+batch_size]
+    batch_embeddings = embed(batch.tolist())
+    embeddings.append(batch_embeddings)
+embeddings = np.concatenate(embeddings, axis=0)
+tsne = TSNE(n_components=2, random_state=42, perplexity=10, n_iter=500)
+tsne_embeddings = tsne.fit_transform(embeddings)
+category_list = df['category'].unique()
+color_map = {category: i for i, category in enumerate(category_list)}
+colors = df['category'].map(color_map)
+plt.figure(figsize=(14, 11))
+scatter = plt.scatter(tsne_embeddings[:, 0], tsne_embeddings[:, 1], c=colors, cmap='tab20')
+plt.colorbar(scatter, label='Category')
+legend_labels = [Line2D([0], [0], marker='o', color='w', markerfacecolor=plt.cm.tab20(i / len(category_list)), markersize=10, label=category) for i, category in enumerate(category_list)]
+plt.legend(handles=legend_labels, title="Categories", bbox_to_anchor=(1.17, 1), loc='upper left', borderaxespad=0.)
+plt.title('t-SNE visualization of USE embeddings [title, description] (colored by category)')
+plt.tight_layout()
+plt.savefig("t-SNE visualization of USE embeddings [title, description] (colored by category).png", dpi=300, bbox_inches="tight")
+plt.show()
