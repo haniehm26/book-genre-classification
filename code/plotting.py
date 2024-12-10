@@ -1,7 +1,4 @@
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.manifold import TSNE
-from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
 from wordcloud import WordCloud, STOPWORDS
 from matplotlib.lines import Line2D
@@ -140,29 +137,30 @@ plot_covers_with_dominant_colors(sampled_df, image_dir)
 
 
 # Compute average dominant colors for each category
-def plot_category_color_bars(data, image_dir, k=3):
+def plot_category_color_bars(data, image_dir, k=1):
     category_colors = {}
     for category in data['category'].unique():
         books_in_category = data[data['category'] == category]
-        all_colors = []
+        weight_sum = 0
+        color_avg = 0
         for _, book in books_in_category.iterrows():
-            dominant_colors, _ = extract_dominant_colors(book, image_dir, k)
-            all_colors.append(dominant_colors)
-        category_colors[category] = np.mean(all_colors, axis=0)
+            dominant_colors, weights = extract_dominant_colors(book, image_dir, k=5)
+            weight_sum += weights[0]
+            color_avg += dominant_colors[0] * weights[0]
+        category_colors[category] = color_avg / weight_sum
     num_categories = len(category_colors)
-    rows = (num_categories // k) + (num_categories % k > 0)
-    fig, axes = plt.subplots(rows, k, figsize=(num_categories, rows))
+    fig, axes = plt.subplots(1, num_categories, figsize=(num_categories * 3, 3))
     axes = axes.flatten() 
     for i, (category, colors) in enumerate(category_colors.items()):
         dominant_color_strip = np.reshape(colors.astype(int), (1, k, 3))
+        wrapped_category = "\n".join(category.split())
         axes[i].imshow(dominant_color_strip, aspect='auto')
-        axes[i].set_title(category, fontsize=12)
+        axes[i].set_title(wrapped_category, fontsize=6, rotation=45) 
         axes[i].axis('off')
-    for j in range(i + 1, len(axes)):
-        axes[j].axis('off')
+    plt.subplots_adjust(left=2.9, right=3, top=3, bottom=2.9, wspace=2)
     plt.tight_layout()
+    plt.savefig("Dominant Colors of 1000 Books in Each Category.png", dpi=300)
     plt.show()
-
-sampled_df = df.groupby('category').sample(n=100, random_state=1).reset_index()
+sampled_df = df.groupby('category').sample(n=1000, random_state=1).reset_index()
 sampled_df = sampled_df[["category", "id"]]
-plot_category_color_bars(sampled_df, image_dir, k=7)
+plot_category_color_bars(sampled_df, image_dir)
