@@ -7,6 +7,8 @@ from sklearn.preprocessing import LabelEncoder
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from torch.utils.data import Dataset
+from torchvision import transforms
+from torch import nn
 from transformers import BertTokenizer, BertModel
 
 
@@ -86,15 +88,18 @@ def sentence_to_vector(text: str):
     with torch.no_grad():
         outputs = bert_model(**inputs)
     last_hidden_state = outputs.last_hidden_state
-    sentence_embedding = last_hidden_state.mean(dim=1).squeeze().numpy()
+    sentence_embedding = last_hidden_state.mean(dim=1).squeeze()
     return sentence_embedding
 
 
 class BookDataset(Dataset):
-    def __init__(self, features_df: pd.DataFrame, labels: pd.DataFrame, transform=None):
+    def __init__(self, features_df: pd.DataFrame, labels: pd.DataFrame):
         self.features = features_df
         self.labels = labels
-        self.transform = transform
+        self.transform = transforms.Compose([
+                transforms.ToTensor(),
+                transforms.Resize((224, 224)),
+        ])
     
     def __len__(self):
         return len(self.features)
@@ -103,15 +108,16 @@ class BookDataset(Dataset):
         image = self.features.iloc[idx]["image"]
         title = self.features.iloc[idx]["title"]
         description = self.features.iloc[idx]["description"]
+        label = self.labels.iloc[idx]
 
         title_vector = sentence_to_vector(title)
         description_vector = sentence_to_vector(description)
 
-        label = self.labels.iloc[idx]
-
         if self.transform:
             image = self.transform(image)
-            title_vector = self.transform(title_vector)
-            description_vector = self.transform(description_vector)
-        return torch.tensor(image), torch.tensor(title_vector), torch.tensor(description_vector), torch.tensor(label)
+
+        image_tensor = torch.tensor(image, dtype=torch.float32)
+        label_tensor = torch.tensor(label, dtype=torch.long)
+
+        return image_tensor, title_vector, description_vector, label_tensor
     

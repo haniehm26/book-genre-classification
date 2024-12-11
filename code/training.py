@@ -1,15 +1,14 @@
 from sklearn.pipeline import Pipeline
 import torch
 from torch.utils.data import DataLoader
-from torch import nn, optim
+from torch import optim
 from tqdm import tqdm
 from model import JointModel
 from data_preprocessing import Features, BookDataset
 from load_dataset import load_or_create_dataframe
 
 
-print(torch.cuda.is_available())
-print(torch.cuda.current_device())
+print("Do we have GPU? t/f", torch.cuda.is_available())
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
