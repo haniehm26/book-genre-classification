@@ -1,22 +1,13 @@
 import pandas as pd
-import numpy as np
 import string
 import nltk
-import torch
 from sklearn.preprocessing import LabelEncoder
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
-from torch.utils.data import Dataset
-from torchvision import transforms
-from torch import nn
-from transformers import BertTokenizer, BertModel
 
 
 nltk.download('stopwords')
 nltk.download('punkt_tab')
-
-tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-bert_model = BertModel.from_pretrained('bert-base-uncased')
 
 
 class Features:
@@ -81,43 +72,3 @@ class Features:
         df['category'] = self.label_encoder.transform(df['category'])
         print("... done with label encoding for 'category' ...")
         return df
-    
-
-def sentence_to_vector(text: str):
-    inputs = tokenizer(text, return_tensors='pt', truncation=True, padding=True, max_length=512)
-    with torch.no_grad():
-        outputs = bert_model(**inputs)
-    last_hidden_state = outputs.last_hidden_state
-    sentence_embedding = last_hidden_state.mean(dim=1).squeeze()
-    return sentence_embedding
-
-
-class BookDataset(Dataset):
-    def __init__(self, features_df: pd.DataFrame, labels: pd.DataFrame):
-        self.features = features_df
-        self.labels = labels
-        self.transform = transforms.Compose([
-                transforms.ToTensor(),
-                transforms.Resize((224, 224)),
-        ])
-    
-    def __len__(self):
-        return len(self.features)
-    
-    def __getitem__(self, idx):
-        image = self.features.iloc[idx]["image"]
-        title = self.features.iloc[idx]["title"]
-        description = self.features.iloc[idx]["description"]
-        label = self.labels.iloc[idx]
-
-        title_vector = sentence_to_vector(title)
-        description_vector = sentence_to_vector(description)
-
-        if self.transform:
-            image = self.transform(image)
-
-        image_tensor = torch.tensor(image, dtype=torch.float32)
-        label_tensor = torch.tensor(label, dtype=torch.long)
-
-        return image_tensor, title_vector, description_vector, label_tensor
-    
