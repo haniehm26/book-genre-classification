@@ -4,8 +4,39 @@ import plotly.io as pio
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
+import nltk
+import string
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from constants import PATH
 
-df = pd.read_csv("C:/Users/hanie/OneDrive/Documents/Hanieh/Master/FOUNDATIONS OF DATA SCIENCE/Project/fds_project/data/full_data/book_descriptions_train_balanced.csv")
+
+nltk.download('stopwords')
+nltk.download('punkt_tab')
+
+
+df = pd.read_csv(f"{PATH}/data/full_data/book_descriptions_train_balanced.csv")
+
+
+def clean_text_column(text: str) -> str:
+    # Replace digits and punctuation with spaces
+    text = text.translate(str.maketrans(string.digits, " " * len(string.digits)))
+    text = text.translate(str.maketrans(string.punctuation, " " * len(string.punctuation)))
+    # Collapse multiple spaces
+    text = " ".join(text.split())
+    # Tokenize and remove stopwords
+    words = word_tokenize(text.lower())
+    stop_words = set(stopwords.words("english"))
+    cleaned_text = " ".join([word for word in words if word not in stop_words])
+    return cleaned_text
+
+
+print(df.iloc[0]["title"])
+
+df['description'] = df['description'].apply(clean_text_column)
+df['title'] = df['title'].apply(clean_text_column)
+
+print(df.iloc[0]["title"])
 
 
 # Number of Books by Category Pie Chart
@@ -73,16 +104,17 @@ fig.show()
 # pio.write_image(fig, "Average Description Length by Author.png")
 
 
-# Average Description Length by Category
-category_avg_length = df.groupby('category')['description_length'].mean().reset_index()
-category_avg_length['description_length'] = category_avg_length['description_length'].astype(int)
+# Average Description Word Count by Category
+df['description_word_count'] = df['description'].apply(lambda x: len(x.split()))
+category_avg_word_count = df.groupby('category')['description_word_count'].mean().reset_index()
+category_avg_word_count['description_word_count'] = category_avg_word_count['description_word_count'].astype(int)
 fig = px.bar(
-    category_avg_length, 
+    category_avg_word_count, 
     x='category', 
-    y='description_length', 
+    y='description_word_count', 
     title='Average Description Length by Category',
     labels={'Description Length': 'Average Length', 'Category': 'Categories'},
-    text='description_length'
+    text='description_word_count'
 )
 fig.show()
 # pio.write_image(fig, "Average Description Length by Category.png")

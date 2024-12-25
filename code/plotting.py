@@ -9,14 +9,46 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 
+import nltk
+import string
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
 
-df = pd.read_csv("C:/Users/hanie/OneDrive/Documents/Hanieh/Master/FOUNDATIONS OF DATA SCIENCE/Project/fds_project/data/full_data/book_descriptions_train_balanced.csv")
-image_dir = 'C:/Users/hanie/OneDrive/Documents/Hanieh/Master/FOUNDATIONS OF DATA SCIENCE/Project/fds_project/data/images'
+from constants import PATH
+
+
+nltk.download('stopwords')
+nltk.download('punkt_tab')
+
+
+df = pd.read_csv(f"{PATH}/data/full_data/book_descriptions_train_balanced.csv")
+image_dir = f'{PATH}/data/images'
+
+
+def clean_text_column(text: str) -> str:
+    # Replace digits and punctuation with spaces
+    text = text.translate(str.maketrans(string.digits, " " * len(string.digits)))
+    text = text.translate(str.maketrans(string.punctuation, " " * len(string.punctuation)))
+    # Collapse multiple spaces
+    text = " ".join(text.split())
+    # Tokenize and remove stopwords
+    words = word_tokenize(text.lower())
+    stop_words = set(stopwords.words("english"))
+    cleaned_text = " ".join([word for word in words if word not in stop_words])
+    return cleaned_text
+
+
+print(df.iloc[0]["title"])
+
+df['description'] = df['description'].apply(clean_text_column)
+df['title'] = df['title'].apply(clean_text_column)
+
+print(df.iloc[0]["title"])
 
 
 # Word Frequency in Book Titles
 text = ' '.join(df['title'].str.strip().str.lower())
-filtered_words = [word for word in text.split() if len(word) > 5 and word.isalpha()]
+filtered_words = [word for word in text.split() if word.isalpha()]
 filtered_text = ' '.join(filtered_words)
 wordcloud = WordCloud(stopwords=STOPWORDS, background_color='white', colormap='rainbow').generate(filtered_text)
 plt.figure(figsize=(8, 5))
@@ -29,10 +61,8 @@ plt.show()
 
 # Word Frequency in Book Descriptions
 text = ' '.join(df['description'].str.strip().str.lower())
-filtered_words = [word for word in text.split() if len(word) > 5 and word.isalpha()]
-filtered_text = ' '.join(filtered_words)
-wordcloud = WordCloud(stopwords=STOPWORDS, background_color='white', colormap='rainbow_r').generate(filtered_text)
-plt.figure(figsize=(9, 6))
+wordcloud = WordCloud(stopwords=STOPWORDS, background_color='white', colormap='rainbow_r').generate(text)
+plt.figure(figsize=(8, 5))
 plt.imshow(wordcloud, interpolation='bilinear')
 plt.axis('off')
 plt.title('Word Frequency in Book Descriptions')
@@ -42,7 +72,7 @@ plt.show()
 
 # Load the Universal Sentence Encoder model
 embed = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4")
-df['metadata'] = df['title'] + " " + df['description']
+df['metadata'] = df['author']
 df = df.sample(n=10000, random_state=42)
 df = df.dropna(subset=['metadata'])
 batch_size = 100 
@@ -62,9 +92,9 @@ scatter = plt.scatter(tsne_embeddings[:, 0], tsne_embeddings[:, 1], c=colors, cm
 plt.colorbar(scatter, label='Category')
 legend_labels = [Line2D([0], [0], marker='o', color='w', markerfacecolor=plt.cm.tab20(i / len(category_list)), markersize=10, label=category) for i, category in enumerate(category_list)]
 plt.legend(handles=legend_labels, title="Categories", bbox_to_anchor=(1.17, 1), loc='upper left', borderaxespad=0.)
-plt.title('t-SNE visualization of USE embeddings [title, description] (colored by category)')
+plt.title('t-SNE visualization of USE embeddings [author] (colored by category)')
 plt.tight_layout()
-plt.savefig("t-SNE visualization of USE embeddings [title, description] (colored by category).png", dpi=300, bbox_inches="tight")
+plt.savefig("t-SNE visualization of USE embeddings [author] (colored by category).png", dpi=300, bbox_inches="tight")
 plt.show()
 
 
