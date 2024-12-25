@@ -6,3 +6,6 @@ ENV/
 env.bak/
 venv.bak/
 .idea/
+
+data/full_data/test.csv
+data/full_data/train.csv
